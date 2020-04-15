@@ -156,7 +156,7 @@ define make-stage-target
 targets_$1 = $(addsuffix _$1, $(DISTROS))
 .PHONY: $(targets_$1)
 $1: $$(targets_$1)
-$$(targets_$1): %_$1: docker/%/Dockerfile | export/%/or-tools.snk
+$$(targets_$1): %_$1: %.Dockerfile | export/%/or-tools.snk
 	#@docker image rm -f ${IMAGE}:$$*_$1 2>/dev/null
 	${DOCKER_BUILD_CMD} \
 		--tag ${IMAGE}:$$*_$1 \
@@ -272,7 +272,7 @@ $(targets): clean_%: $(addprefix clean_%_, $(STAGES))
 	-rmdir cache/$*
 	-rm -f export/archives/$(IMAGE)_flatzinc_$*_v*.tar.gz
 	-rm -f export/archives/$(IMAGE)_$*_v*.tar.gz
-	-rm -f export/$*/$(IMAGE).snk
+	-rm -f export/$*/or-tools.snk
 	-rmdir export/$*
 
 .PHONY: clean_python
